@@ -11,15 +11,19 @@ const schema = z.object({
   gender: z.enum(["female", "male", "other"], {
     message: "Gender is required",
   }),
+  phone: z.string()
+    .length(10, { message: "Phone number must be exactly 10 digits" })
+    .regex(/^[0-9]+$/, { message: "Only digits are allowed" }),
 });
 
 export default function Form() {
   const {
     register,
     handleSubmit,
+    control, // Pass control for MyInputs
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema), // Apply Zod validation
+    resolver: zodResolver(schema),
   });
 
   const onSubmit = (data) => {
@@ -37,6 +41,7 @@ export default function Form() {
           register={register}
           name="firstName"
           errors={errors.firstName}
+          control={control} // Pass control
         />
 
         <MyInputs 
@@ -46,15 +51,28 @@ export default function Form() {
           register={register}
           name="email"
           errors={errors.email}
+          control={control} // Pass control
+        />
+
+        {/* Gender Select Field - No need to use Controller in Form.js */}
+        <MyInputs
+          label="Gender"
+          type="select"
+          name="gender"
+          control={control} // Pass control
+          errors={errors.gender}
+          options={["female", "male", "other"]}
+          placeholder="Select your gender"
         />
 
         <MyInputs 
-          label="Gender"
-          type="select"
+          label="Phone Number"
+          type="text"
+          placeholder="Enter your phone number"
           register={register}
-          name="gender"
-          errors={errors.gender}
-          options={["female", "male", "other"]}
+          name="phone"
+          errors={errors.phone}
+          control={control} // Pass control
         />
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
