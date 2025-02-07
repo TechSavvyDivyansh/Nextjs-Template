@@ -11,12 +11,10 @@ const schema = z.object({
   gender: z.enum(["female", "male", "other"], {
     message: "Gender is required",
   }),
-  phone: z.string()
+  phone: z
+    .string()
     .length(10, { message: "Phone number must be exactly 10 digits" })
     .regex(/^[0-9]+$/, { message: "Only digits are allowed" }),
-  agreeToTerms:z.literal(true,{
-    message:"you must agree to the terms"
-  })
 });
 
 export default function Form() {
@@ -35,9 +33,11 @@ export default function Form() {
 
   return (
     <div className="flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-        
-        <MyInputs 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col space-y-4"
+      >
+        <MyInputs
           label="First Name"
           type="text"
           placeholder="Enter your name"
@@ -47,7 +47,7 @@ export default function Form() {
           control={control} // Pass control
         />
 
-        <MyInputs 
+        <MyInputs
           label="Email"
           type="email"
           placeholder="Enter your email"
@@ -68,7 +68,7 @@ export default function Form() {
           placeholder="Select your gender"
         />
 
-        <MyInputs 
+        <MyInputs
           label="Phone Number"
           type="text"
           placeholder="Enter your phone number"
@@ -77,16 +77,7 @@ export default function Form() {
           errors={errors.phone}
           control={control} // Pass control
         />
-
-      <MyInputs 
-          label="Agree to terms and condition"
-          type="checkbox"
-          // placeholder="Enter your phone number"
-          register={register}
-          name="agreeToTerms"
-          errors={errors.agreeToTerms}
-          control={control} // Pass control
-        />  
+        {/* checkbox not working needs to be corrected */}
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
           Submit

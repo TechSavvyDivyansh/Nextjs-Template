@@ -65,12 +65,16 @@ export default function MyInputs({ label, type, placeholder, register, name, err
   if (type === "checkbox") {
     return (
       <div className="flex items-center space-x-2">
-        <Checkbox id="terms" {...register(name)}/>
-        {label && <label className="text-white">{label}</label>}
+        <Checkbox
+                id={name}
+                checked={name.value}
+                onCheckedChange={name.onChange}
+              />
         {errors && <p className="text-red-500">{errors.message}</p>}
       </div>
     );
   }
+  
 
   if (type === "radio") {
     return (
