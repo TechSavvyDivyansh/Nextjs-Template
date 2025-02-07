@@ -1,22 +1,42 @@
-import Link from 'next/link'
-import React from 'react'
+import { useState } from "react";
+import { UserButton, useUser } from "@clerk/nextjs";
+import SignInModal from "@/components/SignInModel.jsx";
+import Link from "next/link";
 
-export default function Navbar() {
+const Navbar = () => {
+  const { isSignedIn } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className='flex p-8 px-24 justify-between'>
-        <div className="">
-            <Link href="/" className='text-[#a09f9f]'>three dash</Link>
-        </div>
-        <div className="flex gap-16">
-            <Link href="/" className='text-[#a09f9f]'>Home</Link>
-            <Link href="/" className='text-[#a09f9f]'>Link 1</Link>
-            <Link href="/" className='text-[#a09f9f]'>Link 2</Link>
-            <Link href="/" className='text-[#a09f9f]'>Link 3</Link>
-        </div>
+    <nav className="flex justify-between p-8 px-14">
+      <div className="">
+          <p className="text-[#868686]">Blocky</p>
+      </div>
 
-        <div className="">
-            <Link href="/" className='text-[#a09f9f]'>Login</Link>
-        </div>
-    </div>
-  )
-}
+      <div className="flex gap-16">
+        <Link href="/" className="text-[#868686] hover:text-[#c2c1c1]">home</Link>
+        <Link href="/" className="text-[#868686] hover:text-[#c2c1c1]">link1</Link>
+        <Link href="/" className="text-[#868686] hover:text-[#c2c1c1]">link2</Link>
+        <Link href="/" className="text-[#868686] hover:text-[#c2c1c1]">link3</Link>
+      </div>
+
+      <div>
+        {isSignedIn ? (
+          <UserButton />
+        ) : (
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="text-[#868686]"
+          >
+            Sign In
+          </button>
+        )}
+      </div>
+
+      {/* Import and use SignInModal */}
+      <SignInModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </nav>
+  );
+};
+
+export default Navbar;

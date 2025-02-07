@@ -1,14 +1,26 @@
 "use client"
 
 import Form from "@/components/Form";
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
-// import { usemyHackContext } from "@/context";
+import { useMyHackContext } from '@/context'; 
+import { useUser } from "@clerk/nextjs";
+import { useEffect } from "react";
+
 
 export default function Home() {
-  // const {mydata}=usemyHackContext()
+  const { MyUserData } = useMyHackContext();  // Use the context
+  useEffect(()=>{
+    console.log(MyUserData)
+  },[MyUserData])
   return (
-    <div>
-      {/* <Form/> */}
-    </div>
+      <div>
+          <Navbar/>
+          {MyUserData ? (
+              <p>Welcome {MyUserData.fname}!</p>
+          ) : (
+              <p>Loading user data...</p>
+          )}
+      </div>
   );
 }

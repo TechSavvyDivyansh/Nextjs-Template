@@ -1,36 +1,32 @@
-'use client'; // Make sure this directive is at the very top
+'use client';
 
 import { createContext, useState, useEffect, useContext } from 'react';
-// import Cookies from 'js-cookie';
+import { useUser } from "@clerk/nextjs";
 
+// Create context
 const myHackContext = createContext();
 
 export function HackWrapper({ children }) {
-    // const [userData, setUser] = useState(() => {
-    //     // Retrieve the user data from the cookie if it exists
-    //     const savedUserData = Cookies.get('access_token');
-    //     return savedUserData ? JSON.parse(savedUserData) : {};
-    // });
-    // // console.log(userData)
+  const { user, isSignedIn } = useUser();
+  const [MyUserData, setMyUserData] = useState(null);
 
-    // useEffect(() => {
-    //     // Save the user data to the cookie whenever it changes
-    //     Cookies.set('access_token', JSON.stringify(userData));
-    // }, [userData]);
+  useEffect(() => {
+    if (isSignedIn && user) {
+      setMyUserData({
+        id: user.id,
+        fname: user.firstName,
+        lname: user.lastName,
+        email: user.primaryEmailAddress?.emailAddress,
+        avatar: user.imageUrl,
+      });
+    }
+  }, [user, isSignedIn]);
 
-    const [mydata,setMyData]=useState("hello")
-
-    
-
-    const contextValues = { mydata,setMyData };
-    
-    return (
-        <myHackContext.Provider value={contextValues}>
-            {children}
-        </myHackContext.Provider>
-    );
+  return (
+    <myHackContext.Provider value={{ MyUserData }}>
+      {children}
+    </myHackContext.Provider>
+  );
 }
 
-export function usemyHackContext() {
-    return useContext(myHackContext);
-}
+export const useMyHackContext = () => useContext(myHackContext);

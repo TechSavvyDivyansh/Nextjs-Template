@@ -1,6 +1,6 @@
 import "./globals.css";
 import { HackWrapper } from "@/context";
-
+import { ClerkProvider } from '@clerk/nextjs'
 
 
 
@@ -11,6 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <ClerkProvider publishableKey= {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
     <html lang="en" className="dark">
       <body
         className={``}
@@ -20,5 +21,6 @@ export default function RootLayout({ children }) {
         </HackWrapper>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
