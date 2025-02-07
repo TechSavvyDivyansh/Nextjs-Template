@@ -8,7 +8,6 @@ export default function Home() {
   // const {mydata}=usemyHackContext()
   return (
     <div>
-        <Form/>
     </div>
   );
 }

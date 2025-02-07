@@ -14,6 +14,9 @@ const schema = z.object({
   phone: z.string()
     .length(10, { message: "Phone number must be exactly 10 digits" })
     .regex(/^[0-9]+$/, { message: "Only digits are allowed" }),
+  agreeToTerms:z.literal(true,{
+    message:"you must agree to the terms"
+  })
 });
 
 export default function Form() {
@@ -74,6 +77,16 @@ export default function Form() {
           errors={errors.phone}
           control={control} // Pass control
         />
+
+      <MyInputs 
+          label="Agree to terms and condition"
+          type="checkbox"
+          // placeholder="Enter your phone number"
+          register={register}
+          name="agreeToTerms"
+          errors={errors.agreeToTerms}
+          control={control} // Pass control
+        />  
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
           Submit
